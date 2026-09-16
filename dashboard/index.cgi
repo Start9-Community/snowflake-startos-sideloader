@@ -19,8 +19,8 @@ function epoch(d, t,   D, T, y, m, dd, era, yoe, doy, doe) {
 }
 # The proxy reports decimal kilobytes (bytes / 1000).
 function fmt(kb) { return kb >= 1000000 ? sprintf("%.2f GB", kb / 1000000) : sprintf("%.1f MB", kb / 1000) }
-function trend(cur, prev,   pct) {
-  if (prev <= 0) return ""
+function trend(cur, prev, since,   pct) {
+  if (prev <= 0 || first_ep > since) return ""
   pct = (cur - prev) / prev * 100
   if (pct < 0) return sprintf(" <span class=\"trend trend-down\">&#9660; %d%%</span>", -pct + 0.5)
   return sprintf(" <span class=\"trend trend-up\">&#9650; %d%%</span>", pct + 0.5)
@@ -38,6 +38,7 @@ BEGIN {
 # Each summary is logged through two loggers, so drop exact repeats.
 /completed successful connections/ && !seen[$0]++ {
   ep = epoch($1, $2); conn = $9 + 0; kb = $16 + $21
+  if (!first_ep) first_ep = ep
   n++; ts[n] = $1 " " $2; tm[n] = $2; c[n] = conn; dn[n] = $16 + 0; up[n] = $21 + 0
   total_conn += conn; total_kb += kb
   if (ep >= month_start) { month_conn += conn; month_kb += kb }
@@ -82,9 +83,9 @@ END {
 
   print "<div class=\"grid\">"
   printf "<div class=\"tile\"><div class=\"label\">NAT Type</div><div class=\"value %s\">%s</div>%s</div>", nat_class, esc(nat), nat_ts ? "<div class=\"sub\">as of " esc(nat_ts) " UTC</div>" : ""
-  printf "<div class=\"tile\"><div class=\"label\">Bandwidth (today)</div><div class=\"value\">%s%s</div><div class=\"sub\">%d connections</div></div>", fmt(today_kb), trend(today_kb, prev_today_kb), today_conn
-  printf "<div class=\"tile\"><div class=\"label\">Bandwidth (7 days)</div><div class=\"value\">%s%s</div><div class=\"sub\">%d connections</div></div>", fmt(week_kb), trend(week_kb, prev_week_kb), week_conn
-  printf "<div class=\"tile\"><div class=\"label\">Bandwidth (30 days)</div><div class=\"value\">%s%s</div><div class=\"sub\">%d connections</div></div>", fmt(month_kb), trend(month_kb, prev_month_kb), month_conn
+  printf "<div class=\"tile\"><div class=\"label\">Bandwidth (today)</div><div class=\"value\">%s%s</div><div class=\"sub\">%d connections</div></div>", fmt(today_kb), trend(today_kb, prev_today_kb, today_start - 86400), today_conn
+  printf "<div class=\"tile\"><div class=\"label\">Bandwidth (7 days)</div><div class=\"value\">%s%s</div><div class=\"sub\">%d connections</div></div>", fmt(week_kb), trend(week_kb, prev_week_kb, week_start - 7 * 86400), week_conn
+  printf "<div class=\"tile\"><div class=\"label\">Bandwidth (30 days)</div><div class=\"value\">%s%s</div><div class=\"sub\">%d connections</div></div>", fmt(month_kb), trend(month_kb, prev_month_kb, month_start - 30 * 86400), month_conn
   printf "<div class=\"tile\"><div class=\"label\">Bandwidth (all-time)</div><div class=\"value\">%s</div><div class=\"sub\">%d connections</div></div>", fmt(total_kb), total_conn
   printf "<div class=\"tile\"><div class=\"label\">Connections (latest hour)</div><div class=\"value\">%s</div></div>", n ? c[n] : "-"
   printf "<div class=\"tile\"><div class=\"label\">Hourly summaries logged</div><div class=\"value\">%d</div></div>", n
