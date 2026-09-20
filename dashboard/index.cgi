@@ -57,6 +57,7 @@ END {
   print "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\">"
   print "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
   print "<meta http-equiv=\"refresh\" content=\"300;url=/?t=" now "\">"
+  print "<link rel=\"icon\" href=\"/favicon.svg\">"
   print "<title>Snowflake Proxy Stats</title><style>"
   print ":root{color-scheme:light dark;--bg:#f9f9f7;--card:#ffffff;--text:#0b0b0b;--muted:#6b6a66;--border:rgba(0,0,0,.1);--good:#1a7f37;--warn:#9a6700;}"
   print "@media (prefers-color-scheme:dark){:root{--bg:#0d0d0d;--card:#1a1a19;--text:#fff;--muted:#c3c2b7;--border:rgba(255,255,255,.12);}}"
