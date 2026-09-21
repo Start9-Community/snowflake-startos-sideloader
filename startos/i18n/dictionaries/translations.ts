@@ -10,6 +10,8 @@ export default {
     5: 'El panel está listo',
     6: 'El panel no está listo',
     7: 'Tipo de NAT, ancho de banda y conexiones retransmitidas por este proxy',
+    8: 'Puertos de retransmisión del proxy',
+    9: 'Rango de puertos UDP usado para conexiones WebRTC/ICE con otros clientes de Tor. Reenvía este rango en tu router para conseguir un tipo de NAT sin restricciones.',
   },
   de_DE: {
     0: 'Starte Snowflake!',
@@ -20,6 +22,8 @@ export default {
     5: 'Das Dashboard ist bereit',
     6: 'Das Dashboard ist nicht bereit',
     7: 'NAT-Typ, Bandbreite und Verbindungen, die dieser Proxy weitergeleitet hat',
+    8: 'Proxy-Relay-Ports',
+    9: 'UDP-Portbereich für WebRTC/ICE-Peer-Verbindungen mit anderen Tor-Clients. Leiten Sie diesen Bereich an Ihrem Router weiter, um einen uneingeschränkten NAT-Typ zu erhalten.',
   },
   pl_PL: {
     0: 'Uruchamianie Snowflake!',
@@ -30,6 +34,8 @@ export default {
     5: 'Panel jest gotowy',
     6: 'Panel nie jest gotowy',
     7: 'Typ NAT, przepustowość i połączenia przekazane przez to proxy',
+    8: 'Porty przekaźnika proxy',
+    9: 'Zakres portów UDP używany do połączeń WebRTC/ICE z innymi klientami Tor. Przekieruj ten zakres na routerze, aby uzyskać nieograniczony typ NAT.',
   },
   fr_FR: {
     0: 'Démarrage de Snowflake !',
@@ -40,5 +46,7 @@ export default {
     5: 'Le tableau de bord est prêt',
     6: "Le tableau de bord n'est pas prêt",
     7: 'Type de NAT, bande passante et connexions relayées par ce proxy',
+    8: 'Ports de relais du proxy',
+    9: "Plage de ports UDP utilisée pour les connexions WebRTC/ICE avec d'autres clients Tor. Redirigez cette plage sur votre routeur pour obtenir un type de NAT sans restriction.",
   },
 } satisfies Record<string, LangDict>

@@ -22,7 +22,9 @@ The NAT type appears a minute or so after each start. Bandwidth and connection f
 
 ### NAT type
 
-**unrestricted** means clients behind strict NATs can reach your proxy, which is the most useful kind of proxy to run. **restricted** means only clients with permissive NATs can; the proxy still helps, just fewer people. If your router allows it, letting UDP through to this server turns a restricted proxy into an unrestricted one — the Tor Project's operator guide above describes how.
+**unrestricted** means clients behind strict NATs can reach your proxy, which is the most useful kind of proxy to run. **restricted** means only clients with permissive NATs can; the proxy still helps, just fewer people.
+
+To turn a restricted proxy into an unrestricted one, forward **UDP ports 30000-30049** on your router to this server's local IP address. The proxy listens for peer connections somewhere in that range rather than one fixed port, so the whole range needs to be forwarded, not a single port. How to do this varies by router — look for "port forwarding," "port range forwarding," or "virtual servers" in its admin interface. After forwarding, restart the service and check back in a minute or so; the NAT Type tile should read **unrestricted**.
 
 ### Reading the figures
 

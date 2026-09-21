@@ -75,7 +75,7 @@ None.
 
 ## Network Access and Interfaces
 
-One interface, serving the dashboard. The proxy itself needs none.
+One interface, serving the dashboard. The proxy listens on UDP ports 30000-30049 (`-ephemeral-ports-range 30000:31000`) for WebRTC/ICE peer connections; forwarding that range on the router is what turns a restricted proxy into an unrestricted one (see instructions.md).
 
 | Interface | Id   | Type | Port | Description                                             |
 | --------- | ---- | ---- | ---- | ------------------------------------------------------- |
@@ -116,7 +116,7 @@ The `main` volume is copied wholesale — `sdk.Backups.ofVolumes('main')` — so
 
 ## Limitations and Differences
 
-1. **No configuration.** Capacity, broker, STUN servers, relay pattern and the summary interval all stay at upstream's defaults; there is no action to change them.
+1. **Mostly no configuration.** Capacity, broker, STUN servers, relay pattern and the summary interval all stay at upstream's defaults; there is no action to change them. The one exception is `-ephemeral-ports-range`, narrowed from the OS's wide default to a fixed 50-port UDP range (30000-30049) so operators have something forwardable on their router for NAT traversal.
 2. **Statistics come from the log, not from the proxy.** The dashboard adds up the hourly summaries the proxy writes, so it lags real time by up to an hour, shows nothing for the first hour, and starts from zero on a fresh install.
 3. **The dashboard's history is only as old as the log.** Deleting `snowflake.log` resets it.
 
