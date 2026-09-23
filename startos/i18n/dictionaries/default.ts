@@ -12,6 +12,8 @@ const dict = {
 
   // interfaces.ts
   'NAT type, bandwidth and connections relayed by this proxy': 7,
+  'Proxy Relay Ports': 8,
+  'UDP port range used for WebRTC/ICE peer connections with Snowflake clients. Forward this range on your router to get an unrestricted NAT type.': 9,
 } as const
 
 /**

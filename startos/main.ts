@@ -1,6 +1,11 @@
 import { i18n } from './i18n'
 import { sdk } from './sdk'
-import { metricsPort, uiPort } from './utils'
+import {
+  metricsPort,
+  proxyUdpPortCount,
+  proxyUdpStartPort,
+  uiPort,
+} from './utils'
 
 export const main = sdk.setupMain(async ({ effects }) => {
   console.info(i18n('Starting Snowflake!'))
@@ -28,6 +33,8 @@ export const main = sdk.setupMain(async ({ effects }) => {
           '-metrics',
           '-metrics-address',
           '127.0.0.1',
+          '-ephemeral-ports-range',
+          `${proxyUdpStartPort}:${proxyUdpStartPort + proxyUdpPortCount - 1}`,
         ],
       },
       ready: {
