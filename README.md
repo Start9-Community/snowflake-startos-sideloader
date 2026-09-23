@@ -75,12 +75,12 @@ None.
 
 ## Network Access and Interfaces
 
-Two interfaces. The proxy listens on a range of UDP ports (`-ephemeral-ports-range 30000:30249`) for WebRTC/ICE peer connections with other Tor clients; each client's connection holds one of these ports for as long as it lasts, so the range's size also caps how many clients can be relaying through this proxy at once.
+Two interfaces. The proxy listens on a range of UDP ports (`-ephemeral-ports-range 30000:30249`) for WebRTC/ICE peer connections with Snowflake clients; each client's connection holds one of these ports for as long as it lasts, so the range's size also caps how many clients can be relaying through this proxy at once.
 
 | Interface         | Id          | Type | Port        | Description                                                            |
 | ----------------- | ----------- | ---- | ----------- | ----------------------------------------------------------------------- |
 | Dashboard         | `ui`        | ui   | 80          | NAT type, bandwidth and connections relayed by this proxy               |
-| Proxy Relay Ports | `proxy-udp` | api  | 30000-30249 | UDP range used for WebRTC/ICE peer connections with other Tor clients   |
+| Proxy Relay Ports | `proxy-udp` | api  | 30000-30249 | UDP range used for WebRTC/ICE peer connections with Snowflake clients   |
 
 The dashboard is bound on the `ui-multi` MultiHost over plain HTTP and is not masked; it's read-only and holds nothing sensitive, but does reveal that this server runs a Snowflake proxy and how much it relays. The proxy range is bound separately on its own `proxy-udp` MultiHost via `bindPortRange`/`createRangeInterface`. Like any range interface, its public address is off by default — StartOS only exposes it to the LAN/mDNS — so a router's forwarded packets are dropped at the server until the user turns that address on from the Proxy Relay Ports interface; doing so is also what makes StartOS display the exact range to forward (see instructions.md).
 

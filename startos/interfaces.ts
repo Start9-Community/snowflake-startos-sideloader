@@ -34,7 +34,7 @@ export const setInterfaces = sdk.setupInterfaces(async ({ effects }) => {
       id: 'proxy-udp',
       name: i18n('Proxy Relay Ports'),
       description: i18n(
-        'UDP port range used for WebRTC/ICE peer connections with other Tor clients. Forward this range on your router to get an unrestricted NAT type.',
+        'UDP port range used for WebRTC/ICE peer connections with Snowflake clients. Forward this range on your router to get an unrestricted NAT type.',
       ),
     }),
   )
