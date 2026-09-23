@@ -82,7 +82,7 @@ Two interfaces. The proxy listens on a range of UDP ports (`-ephemeral-ports-ran
 | Dashboard         | `ui`        | ui   | 80          | NAT type, bandwidth and connections relayed by this proxy               |
 | Proxy Relay Ports | `proxy-udp` | api  | 30000-30249 | UDP range used for WebRTC/ICE peer connections with Snowflake clients   |
 
-The dashboard is bound on the `ui-multi` MultiHost over plain HTTP and is not masked; it's read-only and holds nothing sensitive, but does reveal that this server runs a Snowflake proxy and how much it relays. The proxy range is bound separately on its own `proxy-udp` MultiHost via `bindPortRange`/`createRangeInterface`. Like any range interface, its public address is off by default — StartOS only exposes it to the LAN/mDNS — so a router's forwarded packets are dropped at the server until the user turns that address on from the Proxy Relay Ports interface; doing so is also what makes StartOS display the exact range to forward (see instructions.md).
+The dashboard is bound on the `ui-multi` MultiHost over plain HTTP and is not masked; it's read-only and holds nothing sensitive, but does reveal that this server runs a Snowflake proxy and how much it relays. The proxy range is bound separately on its own `proxy-udp` MultiHost via `bindPortRange`/`createRangeInterface`.
 
 The proxy makes outbound connections to the Snowflake broker (HTTPS) and to STUN servers to learn its public address and NAT type, plus outbound WebSocket to the Snowflake bridge it relays clients to; WebRTC (UDP, within the ephemeral range above) carries the actual relayed traffic and is negotiated in both directions with clients. None of this needs port forwarding to work — the proxy runs and relays clients fine without it — but a NAT that lets UDP in freely ("unrestricted" on the dashboard) can also serve clients whose own NAT is restrictive, and is worth having if the router allows it.
 
@@ -140,7 +140,7 @@ startos_managed_env_vars: []
 dependencies: []
 interfaces:
   ui: { type: ui, port: 80 }
-  proxy-udp: { type: api, ports: "30000-30249" }
+  proxy-udp: { type: api, port: 30000, port_range: 250 }
 actions: []
 tasks: []
 health_checks:
