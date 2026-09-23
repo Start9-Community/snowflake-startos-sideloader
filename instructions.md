@@ -24,7 +24,35 @@ The NAT type appears a minute or so after each start. Bandwidth and connection f
 
 **unrestricted** means clients behind strict NATs can reach your proxy, which is the most useful kind of proxy to run. **restricted** means only clients with permissive NATs can; the proxy still helps, just fewer people.
 
-To turn a restricted proxy into an unrestricted one, open this service's **Proxy Relay Ports** interface and enable its public IP address. StartOS then shows the port range to forward on your router (UDP 30000–30249). After forwarding, restart the service and check back in a minute or so; the NAT Type tile should read **unrestricted**.
+Flipping a restricted proxy to unrestricted needs three things in place, in this order:
+
+1. **Enable the public address.** Open this service's **Proxy Relay Ports** interface and turn on its public IP address — whichever one applies to your setup (a direct WAN address, or a clearnet tunnel/VPN provider's address if that's how this server reaches the internet). StartOS then shows the exact port range to forward (UDP 30000–30249).
+2. **Allow that range in front of the server.** Forward UDP 30000–30249 to this server wherever traffic actually enters your network before reaching it — port forwarding on a home router, or a firewall/security-group rule on a VPS or tunnel provider. Some tunnel providers publish the range for you automatically once the address is enabled (StartTunnel does, over PCP); check your provider's own port list if you're not sure whether you need this step.
+3. **Restart the service, then be patient.** A restart forces an immediate NAT check instead of waiting for the proxy's normal ~24-hour recheck. If it still reads "restricted" right after enabling everything above, that doesn't necessarily mean something's misconfigured — a tunnel or VPN provider's own side can take a few hours to fully apply the change. Check back later and restart again before assuming it's broken.
+
+```
+ Enable public address on the
+ Proxy Relay Ports interface
+            │
+            ▼
+ Forward/allow UDP 30000-30249
+ in front of the server
+ (router, or VPS/tunnel firewall)
+            │
+            ▼
+      Restart the service
+            │
+            ▼
+   Dashboard still "restricted"?
+            │
+    ┌───────┴────────┐
+    ▼                 ▼
+   yes                no
+    │                 │
+    ▼                 ▼
+ Wait a few hours,   Done —
+ then restart again  "unrestricted"
+```
 
 ### Reading the figures
 
