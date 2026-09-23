@@ -1,6 +1,11 @@
 import { i18n } from './i18n'
 import { sdk } from './sdk'
-import { metricsPort, proxyUdpPortCount, proxyUdpStartPort, uiPort } from './utils'
+import {
+  metricsPort,
+  proxyUdpPortCount,
+  proxyUdpStartPort,
+  uiPort,
+} from './utils'
 
 export const main = sdk.setupMain(async ({ effects }) => {
   console.info(i18n('Starting Snowflake!'))
